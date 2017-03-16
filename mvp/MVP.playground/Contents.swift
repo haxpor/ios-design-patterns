@@ -116,6 +116,8 @@ class GreetingViewController : UIViewController, GreetingView {
     }
 }
 
+// Assembling of MVP
+// Note: Very important that these following lines will be within View when actually creating normal XCode project and follow design here.
 let model = Person(firstName: "Wasin", lastName: "Thonkaew")
 let view = GreetingViewController()
 let presenter = GreetingPresenter(view: view, person: model)
