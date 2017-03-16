@@ -53,7 +53,6 @@ class GreetingViewController : UIViewController {   // View + Controller
     private func _setupLabel() {
         self.greetingLabel = UILabel()
         self.greetingLabel.textColor = UIColor.white
-        self.greetingLabel.text = "Hello " + self.person.firstName + " " + self.person.lastName
         self.greetingLabel.textAlignment = .center
         self.greetingLabel.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.greetingLabel)
@@ -84,7 +83,7 @@ class GreetingViewController : UIViewController {   // View + Controller
     }
     
     func didTapButton(sender: UIButton) {
-        print("clicked")
+        self.greetingLabel.text = "Hello " + self.person.firstName + " " + self.person.lastName
     }
 }
 
