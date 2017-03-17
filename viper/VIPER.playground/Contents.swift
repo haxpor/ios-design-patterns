@@ -1,51 +1,64 @@
 /**
- * MVVM iOS Design Pattern
+ * VIPER iOS Design Pattern
  *
  */
 
 import UIKit
 import PlaygroundSupport
 
-struct Person { // Model
+struct Person { // Entity
     let firstName: String
     let lastName: String
 }
 
-protocol GreetingViewModelProtocol: class {
-    var greeting: String? { get }
-    var greetingDidChange: ((GreetingViewModelProtocol) -> ())? { get set }
-    init(person: Person)
-    func showGreeting()
+struct GreetingData {   // another layer of Data
+    let greeting: String
+    let subject: String
 }
 
-class GreetingViewModel : GreetingViewModelProtocol {
-    let person: Person
+protocol GreetingProvider {
+    func provideGreetingData()
+}
+
+protocol GreetingOutput: class {
+    func receiveGreetingData(greetingData: GreetingData)
+}
+
+class GreetingInteractor: GreetingProvider {
+    weak var output: GreetingOutput!
     
-    var greeting: String? {
-        didSet {
-            self.greetingDidChange?(self)
-        }
-    }
-    
-    var greetingDidChange: ((GreetingViewModelProtocol) -> ())?
-    
-    required init(person: Person) {
-        self.person = person
-    }
-    
-    func showGreeting() {
-        self.greeting = "Hello " + self.person.firstName + " " + self.person.lastName
+    func provideGreetingData() {
+        let person = Person(firstName: "Wasin", lastName: "Thonkaew")
+        let subject = person.firstName + " " + person.lastName
+        let greeting = GreetingData(greeting: "Hello", subject: subject)
+        self.output.receiveGreetingData(greetingData: greeting)
     }
 }
 
-class GreetingViewController : UIViewController {
-    var viewModel: GreetingViewModelProtocol? {
-        didSet {
-            self.viewModel?.greetingDidChange = { [unowned self] viewModel in
-                self.greetingLabel.text = viewModel.greeting
-            }
-        }
+protocol GreetingViewEventHandler {
+    func didTapShowGreetingButton()
+}
+
+protocol GreetingView: class {
+    func setGreeting(greeting: String)
+}
+
+class GreetingPresenter: GreetingOutput, GreetingViewEventHandler {
+    weak var view: GreetingView!
+    var greetingProvider: GreetingProvider!
+    
+    func didTapShowGreetingButton() {
+        self.greetingProvider.provideGreetingData()
     }
+    
+    func receiveGreetingData(greetingData: GreetingData) {
+        let greeting = greetingData.greeting + " " + greetingData.subject
+        self.view.setGreeting(greeting: greeting)
+    }
+}
+
+class GreetingViewController : UIViewController, GreetingView {
+    var eventHandler: GreetingViewEventHandler!
     var showGreetingButton: UIButton!
     var greetingLabel: UILabel!
     
@@ -121,16 +134,17 @@ class GreetingViewController : UIViewController {
     }
     
     func didTapButton(sender: UIButton) {
-        guard let vm = self.viewModel else { return }
-        
-        vm.showGreeting()
+        self.eventHandler.didTapShowGreetingButton()
     }
 }
 
-// Assembling of MVVM
-let model = Person(firstName: "Wasin", lastName: "Thonkaew")
+// Assembling of VIPER without Router]
 let view = GreetingViewController()
-let viewModel = GreetingViewModel(person: model)
-view.viewModel = viewModel
+let presenter = GreetingPresenter()
+let interactor = GreetingInteractor()
+view.eventHandler = presenter
+presenter.view = view
+presenter.greetingProvider = interactor
+interactor.output = presenter
 
 PlaygroundPage.current.liveView = view.view
