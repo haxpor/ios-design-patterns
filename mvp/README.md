@@ -1,16 +1,16 @@
 # MVP
 
-``Model`` + ``UIViewController`` + ``Presenter``
+`Model` + `UIViewController` + `Presenter`
 
 or
 
-``Model`` + ``Passive View`` + ``Presenter``
+`Model` + `Passive View` + `Presenter`
 
 Usually regard 
-* ``UIViewController`` -> `UIView`
-* ``Presenter`` -> ``UIViewController`` or simply Controller in general term
+* `UIViewController` -> `UIView`
+* `Presenter`` -> `UIViewController` or simply Controller in general term
 
-``Passive View`` as compared to ``UIViewController`` in MVC in which the latter is more active in making activity compared to former which will be called by `Presenter` to update its state.
+`Passive View` as compared to `UIViewController` in MVC in which the latter is more active in making activity compared to former which will be called by `Presenter` to update its state.
 
 # Code
 

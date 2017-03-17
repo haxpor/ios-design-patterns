@@ -39,9 +39,9 @@ class GreetingViewModel : GreetingViewModelProtocol {
 }
 
 class GreetingViewController : UIViewController {
-    var viewModel: GreetingViewModelProtocol! {
+    var viewModel: GreetingViewModelProtocol? {
         didSet {
-            self.viewModel.greetingDidChange = { [unowned self] viewModel in
+            self.viewModel?.greetingDidChange = { [unowned self] viewModel in
                 self.greetingLabel.text = viewModel.greeting
             }
         }
@@ -121,7 +121,9 @@ class GreetingViewController : UIViewController {
     }
     
     func didTapButton(sender: UIButton) {
-        self.viewModel.showGreeting()
+        guard let vm = self.viewModel else { return }
+        
+        vm.showGreeting()
     }
 }
 
