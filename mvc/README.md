@@ -1,6 +1,8 @@
 # MVC
 
-Model + (View + Controller) in Apple's design
+`Model` + (`View + Controller`)
+
+in Apple design
 
 # Code
 
