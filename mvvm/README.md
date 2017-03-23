@@ -1,4 +1,4 @@
-# MVVP
+# MVVM
 
 `Model` + `View Model` + `View`
 
