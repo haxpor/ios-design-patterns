@@ -18,17 +18,10 @@ class GreetingViewController : UIViewController {   // View + Controller
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("load")
         
-        self.view.frame = CGRect(x: 0, y: 0, width: 320, height: 640)
+        self.view.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
         
         self.setupUIElements()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        print("view will appear")
         self.layout()
     }
     
@@ -82,7 +75,7 @@ class GreetingViewController : UIViewController {   // View + Controller
         self.view.addConstraints([cs1, cs2, cs3])
     }
     
-    func didTapButton(sender: UIButton) {
+    @objc func didTapButton(sender: UIButton) {
         self.greetingLabel.text = "Hello " + self.person.firstName + " " + self.person.lastName
     }
 }
