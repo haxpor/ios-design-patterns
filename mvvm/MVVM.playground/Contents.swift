@@ -58,10 +58,6 @@ class GreetingViewController : UIViewController {
         self.layout()
     }
     
-    func setGreeting(greeting: String) {
-        self.greetingLabel.text = greeting
-    }
-    
     func setupUIElements() {
         self.title = "Test"
         
